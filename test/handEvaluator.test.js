@@ -118,3 +118,45 @@ describe('Évaluateur de main - Couleur (Flush)', () => {
   })
 
 })
+
+describe('Évaluateur de main - Full House', () => {
+
+  it('devrait détecter un full aux Rois par les 8', () => {
+    // Main: R-R-R-8-8 (Brelan de Rois + Paire de 8)
+    const cartes = [
+      parseCard('RC'),  // Roi de Cœur
+      parseCard('RP'),  // Roi de Pique
+      parseCard('RD'),  // Roi de Diamant
+      parseCard('8C'),  // 8 de Cœur
+      parseCard('8T')   // 8 de Trèfle
+    ]
+
+    const resultat = evaluateHand(cartes)
+
+    expect(resultat.categorie).toBe('FullHouse')
+    expect(resultat.rangBrelan).toBe(13) // Roi = 13
+    expect(resultat.rangPaire).toBe(8)   // 8 = 8
+  })
+
+})
+
+describe('Évaluateur de main - Carte haute', () => {
+
+  it('devrait retourner la carte haute avec les rangs triés', () => {
+    // Main: A-K-9-5-2 (aucune combinaison)
+    const cartes = [
+      parseCard('AC'),  // As de Cœur
+      parseCard('RP'),  // Roi de Pique
+      parseCard('9T'),  // 9 de Trèfle
+      parseCard('5D'),  // 5 de Diamant
+      parseCard('2C')   // 2 de Cœur
+    ]
+
+    const resultat = evaluateHand(cartes)
+
+    expect(resultat.categorie).toBe('CarteHaute')
+    // Rangs en ordre décroissant : A(14), R(13), 9, 5, 2
+    expect(resultat.rangs).toEqual([14, 13, 9, 5, 2])
+  })
+
+})
