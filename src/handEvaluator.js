@@ -1,13 +1,12 @@
 // Évalue une main de 5 cartes et retourne sa catégorie
 export function evaluateHand(cartes) {
+
   // Étape 1 : Compter combien de fois chaque rang apparaît
   const compteur = {}
 
   for (const carte of cartes) {
     const rang = carte.rank
-
     compteur[rang] = (compteur[rang] || 0) + 1
-
   }
 
   // Étape 2 : Analyser les compteurs
@@ -18,7 +17,6 @@ export function evaluateHand(cartes) {
   for (const rang in compteur) {
     const nombre = compteur[rang]
 
-    // Carré (4 cartes identiques)
     if (nombre === 4) {
       carreTrouve = Number(rang)
     }
@@ -40,7 +38,16 @@ export function evaluateHand(cartes) {
     }
   }
 
-  // Priorité 2 : Brelan
+  // Priorité 2 : Full House (3 + 2)
+  if (brelanTrouve !== null && pairesTrouvees.length === 1) {
+    return {
+      categorie: 'FullHouse',
+      rangBrelan: brelanTrouve,
+      rangPaire: pairesTrouvees[0]
+    }
+  }
+
+  // Priorité 3 : Brelan
   if (brelanTrouve !== null) {
     return {
       categorie: 'Brelan',
@@ -48,9 +55,8 @@ export function evaluateHand(cartes) {
     }
   }
 
-  // Double paire
+  // Priorité 4 : Double Paire
   if (pairesTrouvees.length === 2) {
-
     pairesTrouvees.sort((a, b) => b - a)
 
     return {
@@ -59,7 +65,7 @@ export function evaluateHand(cartes) {
     }
   }
 
-  // Paire simple
+  // Priorité 5 : Paire
   if (pairesTrouvees.length === 1) {
     return {
       categorie: 'Paire',
@@ -67,6 +73,5 @@ export function evaluateHand(cartes) {
     }
   }
 
-  // Aucune combinaison trouvée
   return null
 }
