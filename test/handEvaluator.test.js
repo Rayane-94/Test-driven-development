@@ -4,11 +4,6 @@ import { parseCard } from '../src/card.js'
 
 describe('Évaluateur de main - Paire', () => {
   it('devrait détecter une paire de rois', () => {
-<<<<<<< HEAD
-
-=======
-    // Cartes: Roi de Cœur, Roi de Pique, 5 de Trèfle, 8 de Carreau (noté D pour diamant), 2 de Cœur
->>>>>>> 0db84dace1a78e5991ef9121f9046e1823d39c77
     const cartes = [
       parseCard('RC'),
       parseCard('RP'),
