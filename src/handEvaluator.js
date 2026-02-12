@@ -85,5 +85,12 @@ export function evaluateHand(cartes) {
     }
   }
 
-  return null
+  // Carte haute (par défaut)
+  const rangs = cartes.map(c => c.rank).sort((a, b) => b - a)
+
+  return {
+    categorie: 'CarteHaute',
+    rangs
+  }
+
 }

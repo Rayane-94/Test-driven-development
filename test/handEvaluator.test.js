@@ -2,24 +2,6 @@ import { describe, it, expect } from 'vitest'
 import { evaluateHand } from '../src/handEvaluator.js'
 import { parseCard } from '../src/card.js'
 
-describe('Évaluateur de main - Aucune combinaison', () => {
-
-  it('devrait retourner null si aucune combinaison', () => {
-    const cartes = [
-      parseCard('AC'),
-      parseCard('7P'),
-      parseCard('5T'),
-      parseCard('8D'),
-      parseCard('2C')
-    ]
-  
-    const resultat = evaluateHand(cartes)
-  
-    expect(resultat).toBeNull()
-  })
-
-})
-
 describe('Évaluateur de main - Paire', () => {
 
   it('devrait détecter une paire de rois', () => {
