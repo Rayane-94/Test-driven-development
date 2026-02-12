@@ -200,3 +200,76 @@ describe('Évaluateur de main - Quinte Flush (Straight Flush)', () => {
   })
 
 })
+
+// CHoosen5
+
+describe('chosen5 - CarteHaute', () => {
+  it('retourne les 5 cartes triées du plus fort au plus faible', () => {
+
+    const cartes = [
+      parseCard('AC'),
+      parseCard('7P'),
+      parseCard('5T'),
+      parseCard('8D'),
+      parseCard('2C')
+    ]
+
+    const resultat = evaluateHand(cartes)
+
+    expect(resultat.categorie).toBe('CarteHaute')
+    expect(resultat.chosen5.map(c => c.card)).toEqual(['AC', '8D', '7P', '5T', '2C'])
+  })
+})
+
+describe('chosen5 - Couleur', () => {
+  it('retourne les 5 cartes de la couleur triées décroissantes', () => {
+
+    const cartes = [
+      parseCard('AC'),
+      parseCard('VC'),
+      parseCard('9C'),
+      parseCard('5C'),
+      parseCard('2C')
+    ]
+
+    const resultat = evaluateHand(cartes)
+
+    expect(resultat.categorie).toBe('Couleur')
+    expect(resultat.chosen5.map(c => c.card)).toEqual(['AC', 'VC', '9C', '5C', '2C'])
+  })
+})
+
+describe('chosen5 - Suite', () => {
+  it('retourne la suite dans l’ordre (9-8-7-6-5)', () => {
+
+    const cartes = [
+      parseCard('5C'),
+      parseCard('6D'),
+      parseCard('7P'),
+      parseCard('8T'),
+      parseCard('9C')
+    ]
+
+    const resultat = evaluateHand(cartes)
+
+    expect(resultat.categorie).toBe('Suite')
+    expect(resultat.chosen5.map(c => c.card)).toEqual(['9C', '8T', '7P', '6D', '5C'])
+  })
+
+  it('retourne la wheel (5-4-3-2-A)', () => {
+
+    const cartes = [
+      parseCard('AC'),
+      parseCard('2D'),
+      parseCard('3P'),
+      parseCard('4T'),
+      parseCard('5C')
+    ]
+
+    const resultat = evaluateHand(cartes)
+
+    expect(resultat.categorie).toBe('Suite')
+    expect(resultat.chosen5.map(c => c.card)).toEqual(['5C', '4T', '3P', '2D', 'AC'])
+  })
+})
+
