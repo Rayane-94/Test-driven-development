@@ -59,7 +59,20 @@ export function evaluateHand(cartes) {
     }
   }
 
-  // Priorité 3 : Brelan
+  // Priorité 3 : Couleur (Flush) - vérifier si toutes les cartes ont la même couleur
+  const premiereCouleur = cartes[0].color
+  const toutesMemeCouleur = cartes.every(carte => carte.color === premiereCouleur)
+  
+  if (toutesMemeCouleur) {
+    // Trier les rangs par ordre décroissant
+    const rangs = cartes.map(c => c.rank).sort((a, b) => b - a)
+    return {
+      categorie: 'Couleur',
+      rangs
+    }
+  }
+
+  // Priorité 4 : Brelan
   if (brelanTrouve !== null) {
     return {
       categorie: 'Brelan',
@@ -67,7 +80,7 @@ export function evaluateHand(cartes) {
     }
   }
 
-  // Priorité 4 : Double Paire
+  // Priorité 5 : Double Paire
   if (pairesTrouvees.length === 2) {
     pairesTrouvees.sort((a, b) => b - a)
 
@@ -77,7 +90,7 @@ export function evaluateHand(cartes) {
     }
   }
 
-  // Priorité 5 : Paire
+  // Priorité 6 : Paire
   if (pairesTrouvees.length === 1) {
     return {
       categorie: 'Paire',

@@ -98,19 +98,23 @@ describe('Validation des cartes en double', () => {
 
 })
 
-describe('Évaluateur de main - Carte haute', () => {
-  it('devrait retourner CarteHaute avec les rangs triés', () => {
+describe('Évaluateur de main - Couleur (Flush)', () => {
+
+  it('devrait détecter une couleur à Cœur', () => {
+    // Main: A-T-7-4-2 tous Cœur = Couleur
     const cartes = [
-      parseCard('AC'),
-      parseCard('7P'),
-      parseCard('5T'),
-      parseCard('8D'),
-      parseCard('2C')
+      parseCard('AC'),  // As de Cœur
+      parseCard('TC'),  // 10 de Cœur
+      parseCard('7C'),  // 7 de Cœur
+      parseCard('4C'),  // 4 de Cœur
+      parseCard('2C')   // 2 de Cœur
     ]
 
     const resultat = evaluateHand(cartes)
 
-    expect(resultat.categorie).toBe('CarteHaute')
-    expect(resultat.rangs).toEqual([14, 8, 7, 5, 2])
+    expect(resultat.categorie).toBe('Couleur')
+    // Les rangs en ordre décroissant : A(14), T(10), 7, 4, 2
+    expect(resultat.rangs).toEqual([14, 10, 7, 4, 2])
   })
+
 })
