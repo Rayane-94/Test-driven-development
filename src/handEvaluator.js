@@ -1,5 +1,18 @@
 // Évalue une main de 5 cartes et retourne sa catégorie
 export function evaluateHand(cartes) {
+  // Validation : vérifier qu'il n'y a pas de cartes en double
+  const cartesVues = new Set()
+  
+  for (const carte of cartes) {
+    const carteCle = carte.card // Ex: "RC", "7D", etc.
+    
+    if (cartesVues.has(carteCle)) {
+      throw new Error('Cartes en double détectées')
+    }
+    
+    cartesVues.add(carteCle)
+  }
+  
   // Étape 1 : Compter combien de fois chaque rang apparaît
   const compteur = {}
 
