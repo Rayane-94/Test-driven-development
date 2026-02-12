@@ -1,4 +1,5 @@
 import { evaluateHand } from './handEvaluator.js'
+import { compareHands } from './compareHands.js'
 
 // Génère toutes les combinaisons de 5 cartes parmi 7
 function genererCombinaisonsDe5(cartes) {
@@ -28,16 +29,17 @@ export function findBestHand(board, holeCards) {
   // Générer toutes les combinaisons de 5 parmi 7 (21 combinaisons)
   const combinaisons = genererCombinaisonsDe5(toutesLesCartes)
   
-  // Évaluer chaque combinaison
+  // Évaluer chaque combinaison et garder la meilleure
   let meilleurMain = null
   
   for (const combinaison of combinaisons) {
     const evaluation = evaluateHand(combinaison)
     
-    // Pour l'instant, on garde la première main valide trouvée
-    // (on ajoutera la comparaison plus tard)
-    if (evaluation !== null && meilleurMain === null) {
-      meilleurMain = evaluation
+    if (evaluation !== null) {
+      // Si c'est la première main ou si elle est meilleure
+      if (meilleurMain === null || compareHands(evaluation, meilleurMain) === 1) {
+        meilleurMain = evaluation
+      }
     }
   }
   
