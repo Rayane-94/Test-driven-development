@@ -42,7 +42,32 @@ export function evaluateHand(cartes) {
     }
   }
 
-  // Priorité 1 : Carré
+  // Vérifier couleur et suite une seule fois
+  const premiereCouleur = cartes[0].color
+  const estCouleur = cartes.every(carte => carte.color === premiereCouleur)
+  
+  const rangsTries = cartes.map(c => c.rank).sort((a, b) => a - b)
+  let estSuite = true
+  
+  for (let i = 0; i < rangsTries.length - 1; i++) {
+    if (rangsTries[i + 1] - rangsTries[i] !== 1) {
+      estSuite = false
+      break
+    }
+  }
+  
+  const estWheel = rangsTries[0] === 2 && rangsTries[1] === 3 && rangsTries[2] === 4 && rangsTries[3] === 5 && rangsTries[4] === 14
+
+  // Priorité 1 : Quinte Flush (Suite + Couleur)
+  if (estCouleur && (estSuite || estWheel)) {
+    const hauteur = estWheel ? 5 : rangsTries[4]
+    return {
+      categorie: 'QuinteFlush',
+      hauteur
+    }
+  }
+
+  // Priorité 2 : Carré
   if (carreTrouve !== null) {
     return {
       categorie: 'Carre',
@@ -50,7 +75,7 @@ export function evaluateHand(cartes) {
     }
   }
 
-  // Priorité 2 : Full House (3 + 2)
+  // Priorité 3 : Full House (3 + 2)
   if (brelanTrouve !== null && pairesTrouvees.length === 1) {
     return {
       categorie: 'FullHouse',
@@ -59,12 +84,8 @@ export function evaluateHand(cartes) {
     }
   }
 
-  // Priorité 3 : Couleur (Flush) - vérifier si toutes les cartes ont la même couleur
-  const premiereCouleur = cartes[0].color
-  const toutesMemeCouleur = cartes.every(carte => carte.color === premiereCouleur)
-  
-  if (toutesMemeCouleur) {
-    // Trier les rangs par ordre décroissant
+  // Priorité 4 : Couleur (Flush)
+  if (estCouleur) {
     const rangs = cartes.map(c => c.rank).sort((a, b) => b - a)
     return {
       categorie: 'Couleur',
@@ -72,23 +93,9 @@ export function evaluateHand(cartes) {
     }
   }
 
-  // Priorité 4 : Suite (Straight) - 5 cartes consécutives
-  const rangsTries = cartes.map(c => c.rank).sort((a, b) => a - b) // Tri croissant
-  let estSuite = true
-  
-  // Vérifier si les rangs sont consécutifs
-  for (let i = 0; i < rangsTries.length - 1; i++) {
-    if (rangsTries[i + 1] - rangsTries[i] !== 1) {
-      estSuite = false
-      break
-    }
-  }
-  
-  // Cas spécial : A-2-3-4-5 (wheel - As bas)
-  const estWheel = rangsTries[0] === 2 && rangsTries[1] === 3 && rangsTries[2] === 4 && rangsTries[3] === 5 && rangsTries[4] === 14
-  
+  // Priorité 5 : Suite (Straight)
   if (estSuite || estWheel) {
-    const hauteur = estWheel ? 5 : rangsTries[4] // Wheel = 5-high, sinon carte la plus haute
+    const hauteur = estWheel ? 5 : rangsTries[4]
     return {
       categorie: 'Suite',
       hauteur
