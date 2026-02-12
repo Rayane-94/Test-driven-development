@@ -180,3 +180,23 @@ describe('Évaluateur de main - Suite (Straight)', () => {
   })
 
 })
+
+describe('Évaluateur de main - Quinte Flush (Straight Flush)', () => {
+
+  it('devrait détecter une quinte flush au 9 en Cœur', () => {
+    // Main: 5-6-7-8-9 tous Cœur (Suite + Couleur)
+    const cartes = [
+      parseCard('5C'),  // 5 de Cœur
+      parseCard('6C'),  // 6 de Cœur
+      parseCard('7C'),  // 7 de Cœur
+      parseCard('8C'),  // 8 de Cœur
+      parseCard('9C')   // 9 de Cœur
+    ]
+
+    const resultat = evaluateHand(cartes)
+
+    expect(resultat.categorie).toBe('QuinteFlush')
+    expect(resultat.hauteur).toBe(9) // Quinte flush au 9
+  })
+
+})
