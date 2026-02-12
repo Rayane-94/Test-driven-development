@@ -9,7 +9,7 @@ describe('Évaluateur de main - Paire', () => {
       parseCard('RC'),
       parseCard('RP'),
       parseCard('5T'),
-      parseCard('8K'),
+      parseCard('8D'),
       parseCard('2C')
     ]
     
