@@ -2,45 +2,62 @@
 export function evaluateHand(cartes) {
   // Étape 1 : Compter combien de fois chaque rang apparaît
   const compteur = {}
-  
+
   for (const carte of cartes) {
     const rang = carte.rank
-    
+
     if (compteur[rang]) {
       compteur[rang] = compteur[rang] + 1
     } else {
       compteur[rang] = 1
     }
   }
-  
-  // Étape 2 : Analyser les compteurs (une seule boucle)
-  let paireTrouvee = null
-  
+
+  // Étape 2 : Analyser les compteurs
+  let brelanTrouve = null
+  const pairesTrouvees = []
+
   for (const rang in compteur) {
     const nombre = compteur[rang]
-    
-    // Brelan (3 cartes identiques) - on retourne directement
+
+    // Brelan (3 cartes identiques) - on mémorise
     if (nombre === 3) {
-      return {
-        categorie: 'Brelan',
-        rangBrelan: Number(rang)
-      }
+      brelanTrouve = Number(rang)
     }
-    
-    // Paire (2 cartes identiques) - on mémorise
+
+    // Paire (2 cartes identiques) - on stocke toutes les paires
     if (nombre === 2) {
-      paireTrouvee = Number(rang)
+      pairesTrouvees.push(Number(rang))
     }
   }
-  
-  // Si on a trouvé une paire, on la retourne
-  if (paireTrouvee !== null) {
+
+  // Priorité : Brelan
+  if (brelanTrouve !== null) {
+    return {
+      categorie: 'Brelan',
+      rangBrelan: brelanTrouve
+    }
+  }
+
+  // Double paire
+  if (pairesTrouvees.length === 2) {
+    // Pour que ce soit déterministe: plus grande paire d'abord
+    pairesTrouvees.sort((a, b) => b - a)
+
+    return {
+      categorie: 'DoublePaire',
+      rangsPaires: pairesTrouvees
+    }
+  }
+
+  // Paire simple
+  if (pairesTrouvees.length === 1) {
     return {
       categorie: 'Paire',
-      rangPaire: paireTrouvee
+      rangPaire: pairesTrouvees[0]
     }
   }
-  
+
   // Aucune combinaison trouvée
   return null
 }
