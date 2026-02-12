@@ -82,19 +82,19 @@ describe('Évaluateur de main - Double Paire', () => {
 describe('Évaluateur de main - Carré', () => {
 
   it('devrait détecter un carré de 9', () => {
-    // Main: 9-9-9-9-A (quatre 9)
+
     const cartes = [
-      parseCard('9C'),  // 9 de Cœur
-      parseCard('9D'),  // 9 de Diamant
-      parseCard('9P'),  // 9 de Pique
-      parseCard('9T'),  // 9 de Trèfle
-      parseCard('AC')   // As de Cœur
+      parseCard('9C'),
+      parseCard('9D'),
+      parseCard('9P'),
+      parseCard('9T'),
+      parseCard('AC')
     ]
 
     const resultat = evaluateHand(cartes)
 
     expect(resultat.categorie).toBe('Carre')
-    expect(resultat.rangCarre).toBe(9) // 9 = 9
+    expect(resultat.rangCarre).toBe(9)
   })
 
 })
@@ -102,17 +102,33 @@ describe('Évaluateur de main - Carré', () => {
 describe('Validation des cartes en double', () => {
 
   it('devrait détecter des cartes en double (invalide)', () => {
-    // Main invalide: deux Roi de Cœur (impossible au poker)
+
     const cartes = [
-      parseCard('RC'),  // Roi de Cœur
-      parseCard('RC'),  // Roi de Cœur (DOUBLON!)
+      parseCard('RC'),
+      parseCard('RC'),
       parseCard('5T'),
       parseCard('8D'),
       parseCard('2C')
     ]
 
-    // On s'attend à une erreur ou null
     expect(() => evaluateHand(cartes)).toThrow('Cartes en double détectées')
   })
 
+})
+
+describe('Évaluateur de main - Carte haute', () => {
+  it('devrait retourner CarteHaute avec les rangs triés', () => {
+    const cartes = [
+      parseCard('AC'),
+      parseCard('7P'),
+      parseCard('5T'),
+      parseCard('8D'),
+      parseCard('2C')
+    ]
+
+    const resultat = evaluateHand(cartes)
+
+    expect(resultat.categorie).toBe('CarteHaute')
+    expect(resultat.rangs).toEqual([14, 8, 7, 5, 2])
+  })
 })
