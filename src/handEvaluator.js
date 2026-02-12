@@ -72,7 +72,30 @@ export function evaluateHand(cartes) {
     }
   }
 
-  // Priorité 4 : Brelan
+  // Priorité 4 : Suite (Straight) - 5 cartes consécutives
+  const rangsTries = cartes.map(c => c.rank).sort((a, b) => a - b) // Tri croissant
+  let estSuite = true
+  
+  // Vérifier si les rangs sont consécutifs
+  for (let i = 0; i < rangsTries.length - 1; i++) {
+    if (rangsTries[i + 1] - rangsTries[i] !== 1) {
+      estSuite = false
+      break
+    }
+  }
+  
+  // Cas spécial : A-2-3-4-5 (wheel - As bas)
+  const estWheel = rangsTries[0] === 2 && rangsTries[1] === 3 && rangsTries[2] === 4 && rangsTries[3] === 5 && rangsTries[4] === 14
+  
+  if (estSuite || estWheel) {
+    const hauteur = estWheel ? 5 : rangsTries[4] // Wheel = 5-high, sinon carte la plus haute
+    return {
+      categorie: 'Suite',
+      hauteur
+    }
+  }
+
+  // Priorité 5 : Brelan
   if (brelanTrouve !== null) {
     return {
       categorie: 'Brelan',
