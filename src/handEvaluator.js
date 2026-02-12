@@ -13,30 +13,34 @@ export function evaluateHand(cartes) {
     }
   }
   
-  // Étape 2 : Chercher un brelan (3 cartes du même rang)
+  // Étape 2 : Analyser les compteurs (une seule boucle)
+  let paireTrouvee = null
+  
   for (const rang in compteur) {
     const nombre = compteur[rang]
     
+    // Brelan (3 cartes identiques) - on retourne directement
     if (nombre === 3) {
       return {
         categorie: 'Brelan',
         rangBrelan: Number(rang)
       }
     }
-  }
-  
-  // Étape 3 : Chercher une paire (2 cartes du même rang)
-  for (const rang in compteur) {
-    const nombre = compteur[rang]
     
+    // Paire (2 cartes identiques) - on mémorise
     if (nombre === 2) {
-      return {
-        categorie: 'Paire',
-        rangPaire: Number(rang)
-      }
+      paireTrouvee = Number(rang)
     }
   }
   
-  // Aucune paire trouvée
+  // Si on a trouvé une paire, on la retourne
+  if (paireTrouvee !== null) {
+    return {
+      categorie: 'Paire',
+      rangPaire: paireTrouvee
+    }
+  }
+  
+  // Aucune combinaison trouvée
   return null
 }
