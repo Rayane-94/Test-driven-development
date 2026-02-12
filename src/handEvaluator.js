@@ -11,11 +11,17 @@ export function evaluateHand(cartes) {
   }
 
   // Étape 2 : Analyser les compteurs
+  let carreTrouve = null
   let brelanTrouve = null
   const pairesTrouvees = []
 
   for (const rang in compteur) {
     const nombre = compteur[rang]
+
+    // Carré (4 cartes identiques)
+    if (nombre === 4) {
+      carreTrouve = Number(rang)
+    }
 
     if (nombre === 3) {
       brelanTrouve = Number(rang)
@@ -26,7 +32,15 @@ export function evaluateHand(cartes) {
     }
   }
 
-  // Priorité : Brelan
+  // Priorité 1 : Carré
+  if (carreTrouve !== null) {
+    return {
+      categorie: 'Carre',
+      rangCarre: carreTrouve
+    }
+  }
+
+  // Priorité 2 : Brelan
   if (brelanTrouve !== null) {
     return {
       categorie: 'Brelan',
