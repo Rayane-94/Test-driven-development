@@ -78,3 +78,23 @@ describe('Évaluateur de main - Double Paire', () => {
   })
 
 })
+
+describe('Évaluateur de main - Carré', () => {
+
+  it('devrait détecter un carré de 9', () => {
+    // Main: 9-9-9-9-A (quatre 9)
+    const cartes = [
+      parseCard('9C'),  // 9 de Cœur
+      parseCard('9D'),  // 9 de Diamant
+      parseCard('9P'),  // 9 de Pique
+      parseCard('9T'),  // 9 de Trèfle
+      parseCard('AC')   // As de Cœur
+    ]
+
+    const resultat = evaluateHand(cartes)
+
+    expect(resultat.categorie).toBe('Carre')
+    expect(resultat.rangCarre).toBe(9) // 9 = 9
+  })
+
+})
