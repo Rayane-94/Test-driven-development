@@ -160,3 +160,23 @@ describe('Évaluateur de main - Carte haute', () => {
   })
 
 })
+
+describe('Évaluateur de main - Suite (Straight)', () => {
+
+  it('devrait détecter une suite au 9 (5-6-7-8-9)', () => {
+    // Main: 5-6-7-8-9 consécutifs
+    const cartes = [
+      parseCard('5C'),  // 5 de Cœur
+      parseCard('6P'),  // 6 de Pique
+      parseCard('7T'),  // 7 de Trèfle
+      parseCard('8D'),  // 8 de Diamant
+      parseCard('9C')   // 9 de Cœur
+    ]
+
+    const resultat = evaluateHand(cartes)
+
+    expect(resultat.categorie).toBe('Suite')
+    expect(resultat.hauteur).toBe(9) // Suite au 9 (carte la plus haute)
+  })
+
+})
