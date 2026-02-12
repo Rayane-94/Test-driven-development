@@ -6,11 +6,8 @@ export function evaluateHand(cartes) {
   for (const carte of cartes) {
     const rang = carte.rank
 
-    if (compteur[rang]) {
-      compteur[rang] = compteur[rang] + 1
-    } else {
-      compteur[rang] = 1
-    }
+    compteur[rang] = (compteur[rang] || 0) + 1
+
   }
 
   // Étape 2 : Analyser les compteurs
@@ -20,12 +17,10 @@ export function evaluateHand(cartes) {
   for (const rang in compteur) {
     const nombre = compteur[rang]
 
-    // Brelan (3 cartes identiques) - on mémorise
     if (nombre === 3) {
       brelanTrouve = Number(rang)
     }
 
-    // Paire (2 cartes identiques) - on stocke toutes les paires
     if (nombre === 2) {
       pairesTrouvees.push(Number(rang))
     }
@@ -41,7 +36,7 @@ export function evaluateHand(cartes) {
 
   // Double paire
   if (pairesTrouvees.length === 2) {
-    // Pour que ce soit déterministe: plus grande paire d'abord
+
     pairesTrouvees.sort((a, b) => b - a)
 
     return {
