@@ -13,7 +13,19 @@ export function evaluateHand(cartes) {
     }
   }
   
-  // Étape 2 : Chercher une paire (2 cartes du même rang)
+  // Étape 2 : Chercher un brelan (3 cartes du même rang)
+  for (const rang in compteur) {
+    const nombre = compteur[rang]
+    
+    if (nombre === 3) {
+      return {
+        categorie: 'Brelan',
+        rangBrelan: Number(rang)
+      }
+    }
+  }
+  
+  // Étape 3 : Chercher une paire (2 cartes du même rang)
   for (const rang in compteur) {
     const nombre = compteur[rang]
     
